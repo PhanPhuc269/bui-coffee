@@ -14,6 +14,7 @@ import { LoadingSpinner } from "@/components/loading-spinner"
 import type { SiteConfig } from "@/types"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { AlertCircle } from "lucide-react"
+import { useRouter } from "next/navigation"
 
 export function SettingsAdmin() {
   const [siteConfig, setSiteConfig] = useState<SiteConfig | null>(null)
@@ -21,6 +22,7 @@ export function SettingsAdmin() {
   const [isSaving, setIsSaving] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const { toast } = useToast()
+  const router = useRouter()
 
   // Fetch site config
   useEffect(() => {
@@ -73,15 +75,16 @@ export function SettingsAdmin() {
         throw new Error(result.error || result.details || "Lỗi khi lưu cấu hình")
       }
 
+      // Revalidate the cache
+      await fetch("/api/revalidate?path=/")
+
       toast({
         title: "Lưu thành công",
         description: "Cấu hình trang web đã được cập nhật",
       })
 
-      // Reload the page to reflect changes
-      setTimeout(() => {
-        window.location.reload()
-      }, 1500)
+      // Force refresh
+      router.refresh()
     } catch (error) {
       console.error("Error saving site config:", error)
       setError(error instanceof Error ? error.message : "Không thể lưu cấu hình trang web")

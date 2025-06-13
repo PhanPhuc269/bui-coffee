@@ -1,8 +1,12 @@
 import { getSiteConfig } from "@/lib/data"
 import Link from "next/link"
 import { Facebook, Instagram, Youtube } from "lucide-react"
+import { unstable_noStore as noStore } from "next/cache"
 
 export default async function Footer() {
+  // Disable caching for this component
+  noStore()
+
   const siteConfig = (await getSiteConfig()) || {
     name: "Highlands Coffee",
     description:

@@ -231,7 +231,7 @@ export const getFeatures = cache(async (): Promise<Feature[]> => {
 })
 
 // Site Config
-export const getSiteConfig = cache(async (): Promise<SiteConfig | null> => {
+export const getSiteConfig = cache(async (options: { revalidate?: number } = {}): Promise<SiteConfig | null> => {
   try {
     const { db } = await connectToDatabase()
     const settings = await db.collection("settings").findOne({ _id: "site-config" })
