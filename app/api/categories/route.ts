@@ -1,77 +1,71 @@
-import { connectToDatabase } from "@/lib/mongodb"
 import { NextResponse } from "next/server"
+import { connectToDatabase } from "@/lib/mongodb"
 
-export async function GET() {
-  try {
-    const dbConnection = await connectToDatabase()
+// Helper function to serialize MongoDB documents
+function serializeDocument(doc: any) {
+  if (!doc) return null
 
-    // Nếu không kết nối được đến MongoDB
-    if (!dbConnection) {
-      // Trả về dữ liệu mẫu
-      return NextResponse.json([
-        {
-          _id: "1",
-          name: "Cà Phê",
-          slug: "coffee",
-          description: "Các loại cà phê truyền thống và hiện đại",
-          image: "/placeholder.svg?height=200&width=200",
-          order: 1,
-          isActive: true,
-        },
-        {
-          _id: "2",
-          name: "Trà",
-          slug: "tea",
-          description: "Các loại trà thơm ngon, thanh mát",
-          image: "/placeholder.svg?height=200&width=200",
-          order: 2,
-          isActive: true,
-        },
-        {
-          _id: "3",
-          name: "Bánh & Snack",
-          slug: "food",
-          description: "Các loại bánh và đồ ăn nhẹ",
-          image: "/placeholder.svg?height=200&width=200",
-          order: 3,
-          isActive: true,
-        },
-        {
-          _id: "4",
-          name: "Đồ uống khác",
-          slug: "others",
-          description: "Các loại đồ uống đặc biệt khác",
-          image: "/placeholder.svg?height=200&width=200",
-          order: 4,
-          isActive: true,
-        },
-      ])
+  // Convert _id from ObjectId to string
+  if (doc._id) {
+    doc._id = doc._id.toString()
+  }
+
+  // Handle nested documents in arrays
+  Object.keys(doc).forEach((key) => {
+    if (Array.isArray(doc[key])) {
+      doc[key] = doc[key].map((item: any) => {
+        if (item && typeof item === "object" && item._id) {
+          return serializeDocument(item)
+        }
+        return item
+      })
+    } else if (doc[key] && typeof doc[key] === "object" && doc[key]._id) {
+      doc[key] = serializeDocument(doc[key])
     }
+  })
 
-    const { db } = dbConnection
+  return doc
+}
+
+export async function GET(request: Request) {
+  try {
+    const { db } = await connectToDatabase()
     const categories = await db.collection("categories").find({}).sort({ order: 1 }).toArray()
-    return NextResponse.json(categories)
+
+    // Serialize MongoDB documents
+    const serializedCategories = categories.map((category) => serializeDocument(category))
+
+    return NextResponse.json(serializedCategories)
   } catch (error) {
-    console.error("Lỗi khi lấy danh mục:", error)
-    return NextResponse.json({ error: "Không thể lấy dữ liệu danh mục" }, { status: 500 })
+    console.error("Lỗi khi lấy danh sách danh mục:", error)
+    return NextResponse.json({ error: "Không thể lấy danh sách danh mục" }, { status: 500 })
   }
 }
 
 export async function POST(request: Request) {
   try {
-    const category = await request.json()
-    const dbConnection = await connectToDatabase()
+    const { db } = await connectToDatabase()
+    const newCategory = await request.json()
 
-    if (!dbConnection) {
-      return NextResponse.json({ error: "Không thể kết nối đến cơ sở dữ liệu" }, { status: 500 })
+    // Kiểm tra slug đã tồn tại chưa
+    if (newCategory.slug) {
+      const existingCategory = await db.collection("categories").findOne({ slug: newCategory.slug })
+      if (existingCategory) {
+        return NextResponse.json({ error: "Slug đã tồn tại" }, { status: 400 })
+      }
     }
 
-    const { db } = dbConnection
-    const result = await db.collection("categories").insertOne(category)
+    // Tìm order cao nhất để thêm vào cuối
+    const lastCategory = await db.collection("categories").find({}).sort({ order: -1 }).limit(1).toArray()
+    const highestOrder = lastCategory.length > 0 ? lastCategory[0].order : 0
+    newCategory.order = highestOrder + 1
 
-    return NextResponse.json({ id: result.insertedId })
+    const result = await db.collection("categories").insertOne(newCategory)
+    const insertedCategory = await db.collection("categories").findOne({ _id: result.insertedId })
+
+    return NextResponse.json(serializeDocument(insertedCategory))
   } catch (error) {
-    console.error("Lỗi khi thêm danh mục:", error)
-    return NextResponse.json({ error: "Không thể thêm danh mục" }, { status: 500 })
+    console.error("Lỗi khi tạo danh mục mới:", error)
+    return NextResponse.json({ error: "Không thể tạo danh mục mới" }, { status: 500 })
   }
 }

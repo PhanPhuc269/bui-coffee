@@ -9,7 +9,8 @@ export async function generateMetadata({
 }: {
   params: { slug: string }
 }): Promise<Metadata> {
-  const product = await getProductBySlug(params.slug)
+  const slug = params.slug
+  const product = await getProductBySlug(slug)
 
   if (!product) {
     return {
@@ -28,13 +29,14 @@ export default async function ProductPage({
 }: {
   params: { slug: string }
 }) {
-  const product = await getProductBySlug(params.slug)
+  const slug = params.slug
+  const product = await getProductBySlug(slug)
 
   if (!product) {
     notFound()
   }
 
-  const relatedProducts = await getRelatedProducts(product.category, product.slug)
+  const relatedProducts = await getRelatedProducts(product.category, slug)
 
   return (
     <div className="container py-8 md:py-12">
