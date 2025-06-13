@@ -29,8 +29,24 @@ function serializeDocument(doc: any) {
 
 export async function GET(request: Request) {
   try {
+    const { searchParams } = new URL(request.url)
+    const category = searchParams.get("category")
+    const featured = searchParams.get("featured") === "true"
+
     const { db } = await connectToDatabase()
-    const products = await db.collection("products").find({}).sort({ createdAt: -1 }).toArray()
+
+    // Build query based on parameters
+    const query: any = {}
+
+    if (category) {
+      query.category = category
+    }
+
+    if (featured) {
+      query.isFeatured = true
+    }
+
+    const products = await db.collection("products").find(query).sort({ createdAt: -1 }).toArray()
 
     // Serialize MongoDB documents
     const serializedProducts = products.map((product) => serializeDocument(product))
@@ -53,6 +69,35 @@ export async function POST(request: Request) {
       if (existingProduct) {
         return NextResponse.json({ error: "Slug đã tồn tại" }, { status: 400 })
       }
+    }
+
+    // Validate required fields
+    const requiredFields = ["name", "slug", "description", "category", "price", "image"]
+    for (const field of requiredFields) {
+      if (!newProduct[field]) {
+        return NextResponse.json({ error: `Thiếu trường bắt buộc: ${field}` }, { status: 400 })
+      }
+    }
+
+    // Ensure all fields have proper structure
+    if (!newProduct.sizes || !Array.isArray(newProduct.sizes) || newProduct.sizes.length === 0) {
+      newProduct.sizes = [{ name: "Nhỏ", price: newProduct.price }]
+    }
+
+    if (!newProduct.images || !Array.isArray(newProduct.images)) {
+      newProduct.images = [newProduct.image]
+    }
+
+    if (!newProduct.nutritionalInfo) {
+      newProduct.nutritionalInfo = {
+        calories: 0,
+        caffeine: "0mg",
+        sugar: "0g",
+      }
+    }
+
+    if (!newProduct.tags || !Array.isArray(newProduct.tags)) {
+      newProduct.tags = []
     }
 
     // Thêm thời gian tạo và cập nhật

@@ -152,7 +152,7 @@ const sampleStores = [
     city: "Ho Chi Minh",
     district: "Quận 1",
     phone: "028-1234-5678",
-    email: "nguyen.hue@highlands.com.vn",
+    email: "nguyen.hue@buicoffee.com.vn",
     coordinates: {
       lat: 10.7769,
       lng: 106.7009,
@@ -176,7 +176,7 @@ const sampleStores = [
     city: "Ho Chi Minh",
     district: "Quận 1",
     phone: "028-1234-5679",
-    email: "le.loi@highlands.com.vn",
+    email: "le.loi@buicoffee.com.vn",
     coordinates: {
       lat: 10.7731,
       lng: 106.7012,
@@ -200,7 +200,7 @@ const sampleStores = [
     city: "Ha Noi",
     district: "Quận Hoàn Kiếm",
     phone: "024-1234-5678",
-    email: "hoan.kiem@highlands.com.vn",
+    email: "hoan.kiem@buicoffee.com.vn",
     coordinates: {
       lat: 21.0285,
       lng: 105.8542,
@@ -223,7 +223,7 @@ const sampleStores = [
 // Dữ liệu mẫu cho Orders
 const sampleOrders = [
   {
-    orderNumber: "HL240101001",
+    orderNumber: "BC240101001",
     customerInfo: {
       name: "Nguyễn Văn A",
       phone: "0901234567",
@@ -250,7 +250,7 @@ const sampleOrders = [
     updatedAt: new Date(),
   },
   {
-    orderNumber: "HL240101002",
+    orderNumber: "BC240101002",
     customerInfo: {
       name: "Trần Thị B",
       phone: "0901234568",
@@ -286,6 +286,55 @@ const sampleOrders = [
   },
 ]
 
+// Dữ liệu mẫu cho Features
+const sampleFeatures = [
+  {
+    title: "Cà Phê Chất Lượng Cao",
+    description: "Chúng tôi chỉ sử dụng những hạt cà phê được chọn lọc kỹ càng từ các vùng trồng cà phê nổi tiếng",
+    icon: "Coffee",
+  },
+  {
+    title: "Không Gian Thoải Mái",
+    description: "Thiết kế hiện đại, ấm cúng với wifi miễn phí và không gian làm việc lý tưởng",
+    icon: "Wifi",
+  },
+  {
+    title: "Phục Vụ Nhanh Chóng",
+    description: "Đội ngũ barista chuyên nghiệp đảm bảo thời gian phục vụ nhanh nhất",
+    icon: "Clock",
+  },
+  {
+    title: "Giao Hàng Tận Nơi",
+    description: "Dịch vụ giao hàng nhanh chóng trong bán kính 5km với phí ship hợp lý",
+    icon: "Truck",
+  },
+]
+
+// Dữ liệu mẫu cho Testimonials
+const sampleTestimonials = [
+  {
+    name: "Nguyễn Minh Anh",
+    avatar: "/placeholder-user.jpg",
+    rating: 5,
+    comment: "Cà phê ở đây thật sự rất ngon! Không gian thoải mái, phù hợp để làm việc và gặp gỡ bạn bè.",
+    location: "TP. Hồ Chí Minh",
+  },
+  {
+    name: "Trần Văn Bình",
+    avatar: "/placeholder-user.jpg",
+    rating: 5,
+    comment: "Dịch vụ tuyệt vời, nhân viên thân thiện. Trà sen vàng ở đây là món tôi yêu thích nhất.",
+    location: "Hà Nội",
+  },
+  {
+    name: "Lê Thị Cẩm",
+    avatar: "/placeholder-user.jpg",
+    rating: 4,
+    comment: "Bánh mì thịt nướng rất ngon, giá cả hợp lý. Sẽ quay lại lần sau!",
+    location: "Đà Nẵng",
+  },
+]
+
 async function setupDatabase() {
   const client = new MongoClient(MONGODB_URI)
 
@@ -316,6 +365,16 @@ async function setupDatabase() {
     await db.collection("orders").insertMany(sampleOrders)
     console.log(`Đã thêm ${sampleOrders.length} đơn hàng`)
 
+    console.log("Đang tạo collection features...")
+    await db.collection("features").deleteMany({})
+    await db.collection("features").insertMany(sampleFeatures)
+    console.log(`Đã thêm ${sampleFeatures.length} tính năng`)
+
+    console.log("Đang tạo collection testimonials...")
+    await db.collection("testimonials").deleteMany({})
+    await db.collection("testimonials").insertMany(sampleTestimonials)
+    console.log(`Đã thêm ${sampleTestimonials.length} đánh giá`)
+
     // Tạo indexes
     console.log("Đang tạo indexes...")
     await db.collection("products").createIndex({ slug: 1 }, { unique: true })
@@ -325,6 +384,7 @@ async function setupDatabase() {
     await db.collection("stores").createIndex({ city: 1 })
     await db.collection("orders").createIndex({ orderNumber: 1 }, { unique: true })
     await db.collection("orders").createIndex({ status: 1 })
+    await db.collection("features").createIndex({ title: 1 }, { unique: true })
 
     console.log("✅ Thiết lập database thành công!")
   } catch (error) {

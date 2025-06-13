@@ -28,11 +28,20 @@ function serializeDocument(doc: any) {
   return doc
 }
 
-export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
+export async function GET(request: Request, { params }: { params: { id: string } }) {
   try {
-    const { id } = await params
+    const id = params.id
     const { db } = await connectToDatabase()
-    const product = await db.collection("products").findOne({ _id: new ObjectId(id) })
+
+    let product
+
+    // Check if the ID is a valid ObjectId or a slug
+    if (ObjectId.isValid(id)) {
+      product = await db.collection("products").findOne({ _id: new ObjectId(id) })
+    } else {
+      // If not a valid ObjectId, treat as slug
+      product = await db.collection("products").findOne({ slug: id })
+    }
 
     if (!product) {
       return NextResponse.json({ error: "Không tìm thấy sản phẩm" }, { status: 404 })
@@ -45,9 +54,9 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
   }
 }
 
-export async function PUT(request: Request, { params }: { params: Promise<{ id: string }> }) {
+export async function PUT(request: Request, { params }: { params: { id: string } }) {
   try {
-    const { id } = await params
+    const id = params.id
     const { db } = await connectToDatabase()
     const updatedProduct = await request.json()
 
@@ -59,6 +68,35 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
       if (existingProduct) {
         return NextResponse.json({ error: "Slug đã tồn tại" }, { status: 400 })
       }
+    }
+
+    // Validate required fields
+    const requiredFields = ["name", "slug", "description", "category", "price", "image"]
+    for (const field of requiredFields) {
+      if (!updatedProduct[field]) {
+        return NextResponse.json({ error: `Thiếu trường bắt buộc: ${field}` }, { status: 400 })
+      }
+    }
+
+    // Ensure all fields have proper structure
+    if (!updatedProduct.sizes || !Array.isArray(updatedProduct.sizes) || updatedProduct.sizes.length === 0) {
+      updatedProduct.sizes = [{ name: "Nhỏ", price: updatedProduct.price }]
+    }
+
+    if (!updatedProduct.images || !Array.isArray(updatedProduct.images)) {
+      updatedProduct.images = [updatedProduct.image]
+    }
+
+    if (!updatedProduct.nutritionalInfo) {
+      updatedProduct.nutritionalInfo = {
+        calories: 0,
+        caffeine: "0mg",
+        sugar: "0g",
+      }
+    }
+
+    if (!updatedProduct.tags || !Array.isArray(updatedProduct.tags)) {
+      updatedProduct.tags = []
     }
 
     // Cập nhật thời gian
@@ -83,9 +121,9 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
   }
 }
 
-export async function DELETE(request: Request, { params }: { params: Promise<{ id: string }> }) {
+export async function DELETE(request: Request, { params }: { params: { id: string } }) {
   try {
-    const { id } = await params
+    const id = params.id
     const { db } = await connectToDatabase()
     const result = await db.collection("products").deleteOne({ _id: new ObjectId(id) })
 

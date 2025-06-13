@@ -1,58 +1,54 @@
+import type { Metadata } from "next"
 import { notFound } from "next/navigation"
 import { ProductDetail } from "@/components/product-detail"
-import { ProductCarousel } from "@/components/product-carousel"
-import { getProductBySlug, getRelatedProducts } from "@/lib/data"
-import type { Metadata } from "next"
+import { getProductBySlug, getCategoryBySlug } from "@/lib/data"
 
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ slug: string }>
-}): Promise<Metadata> {
-  const { slug } = await params
+interface ProductPageProps {
+  params: {
+    slug: string
+  }
+}
+
+export async function generateMetadata({ params }: ProductPageProps): Promise<Metadata> {
+  // Lấy slug từ params
+  const slug = params.slug
+
+  // Lấy thông tin sản phẩm
   const product = await getProductBySlug(slug)
 
   if (!product) {
     return {
-      title: "Sản phẩm không tồn tại - Bụi Coffee",
-      description: "Sản phẩm bạn tìm kiếm không tồn tại.",
+      title: "Sản phẩm không tồn tại",
+      description: "Không tìm thấy sản phẩm",
     }
   }
 
   return {
-    title: `${product.name} - Bụi Coffee`,
+    title: `${product.name} | Highlands Coffee`,
     description: product.description,
     openGraph: {
-      title: product.name,
-      description: product.description,
       images: [product.image],
     },
   }
 }
 
-export default async function ProductPage({
-  params,
-}: {
-  params: Promise<{ slug: string }>
-}) {
-  const { slug } = await params
+export default async function ProductPage({ params }: ProductPageProps) {
+  // Lấy slug từ params
+  const slug = params.slug
+
+  // Lấy thông tin sản phẩm
   const product = await getProductBySlug(slug)
 
   if (!product) {
     notFound()
   }
 
-  const relatedProducts = await getRelatedProducts(product.category, product.slug)
+  // Lấy thông tin danh mục
+  const category = await getCategoryBySlug(product.category)
 
   return (
-    <div className="container py-8 md:py-12">
-      <ProductDetail product={product} />
-      {relatedProducts.length > 0 && (
-        <div className="mt-16">
-          <h2 className="text-2xl font-bold mb-8">Sản phẩm liên quan</h2>
-          <ProductCarousel products={relatedProducts} />
-        </div>
-      )}
+    <div className="container mx-auto px-4 py-8">
+      <ProductDetail product={product} category={category} />
     </div>
   )
 }
