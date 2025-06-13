@@ -24,6 +24,9 @@ export function SettingsAdmin() {
     const fetchSiteConfig = async () => {
       try {
         const response = await fetch("/api/settings")
+        if (!response.ok) {
+          throw new Error(`Error: ${response.status}`)
+        }
         const data = await response.json()
         setSiteConfig(data)
       } catch (error) {
@@ -57,8 +60,10 @@ export function SettingsAdmin() {
         body: JSON.stringify(siteConfig),
       })
 
+      const result = await response.json()
+
       if (!response.ok) {
-        throw new Error("Lỗi khi lưu cấu hình")
+        throw new Error(result.error || "Lỗi khi lưu cấu hình")
       }
 
       toast({
@@ -69,11 +74,34 @@ export function SettingsAdmin() {
       console.error("Error saving site config:", error)
       toast({
         title: "Lỗi",
-        description: "Không thể lưu cấu hình trang web",
+        description:
+          typeof error === "object" && error !== null && "message" in error
+            ? (error as Error).message
+            : "Không thể lưu cấu hình trang web",
         variant: "destructive",
       })
     } finally {
       setIsSaving(false)
+    }
+  }
+
+  // Handle input change
+  const handleChange = (section: keyof SiteConfig, field: string, value: string) => {
+    if (!siteConfig) return
+
+    if (section === "name" || section === "description" || section === "logo") {
+      setSiteConfig({
+        ...siteConfig,
+        [section]: value,
+      })
+    } else {
+      setSiteConfig({
+        ...siteConfig,
+        [section]: {
+          ...siteConfig[section],
+          [field]: value,
+        },
+      })
     }
   }
 
@@ -115,7 +143,7 @@ export function SettingsAdmin() {
                 <Input
                   id="name"
                   value={siteConfig.name}
-                  onChange={(e) => setSiteConfig({ ...siteConfig, name: e.target.value })}
+                  onChange={(e) => handleChange("name", "", e.target.value)}
                   required
                 />
               </div>
@@ -124,7 +152,7 @@ export function SettingsAdmin() {
                 <Textarea
                   id="description"
                   value={siteConfig.description}
-                  onChange={(e) => setSiteConfig({ ...siteConfig, description: e.target.value })}
+                  onChange={(e) => handleChange("description", "", e.target.value)}
                   required
                 />
               </div>
@@ -133,7 +161,7 @@ export function SettingsAdmin() {
                 <Input
                   id="logo"
                   value={siteConfig.logo}
-                  onChange={(e) => setSiteConfig({ ...siteConfig, logo: e.target.value })}
+                  onChange={(e) => handleChange("logo", "", e.target.value)}
                   required
                 />
               </div>
@@ -158,12 +186,7 @@ export function SettingsAdmin() {
                 <Input
                   id="hotline"
                   value={siteConfig.contact.hotline}
-                  onChange={(e) =>
-                    setSiteConfig({
-                      ...siteConfig,
-                      contact: { ...siteConfig.contact, hotline: e.target.value },
-                    })
-                  }
+                  onChange={(e) => handleChange("contact", "hotline", e.target.value)}
                   required
                 />
               </div>
@@ -173,12 +196,7 @@ export function SettingsAdmin() {
                   id="email"
                   type="email"
                   value={siteConfig.contact.email}
-                  onChange={(e) =>
-                    setSiteConfig({
-                      ...siteConfig,
-                      contact: { ...siteConfig.contact, email: e.target.value },
-                    })
-                  }
+                  onChange={(e) => handleChange("contact", "email", e.target.value)}
                   required
                 />
               </div>
@@ -187,12 +205,7 @@ export function SettingsAdmin() {
                 <Textarea
                   id="address"
                   value={siteConfig.contact.address}
-                  onChange={(e) =>
-                    setSiteConfig({
-                      ...siteConfig,
-                      contact: { ...siteConfig.contact, address: e.target.value },
-                    })
-                  }
+                  onChange={(e) => handleChange("contact", "address", e.target.value)}
                   required
                 />
               </div>
@@ -217,12 +230,7 @@ export function SettingsAdmin() {
                 <Input
                   id="facebook"
                   value={siteConfig.socialMedia.facebook}
-                  onChange={(e) =>
-                    setSiteConfig({
-                      ...siteConfig,
-                      socialMedia: { ...siteConfig.socialMedia, facebook: e.target.value },
-                    })
-                  }
+                  onChange={(e) => handleChange("socialMedia", "facebook", e.target.value)}
                   required
                 />
               </div>
@@ -231,12 +239,7 @@ export function SettingsAdmin() {
                 <Input
                   id="instagram"
                   value={siteConfig.socialMedia.instagram}
-                  onChange={(e) =>
-                    setSiteConfig({
-                      ...siteConfig,
-                      socialMedia: { ...siteConfig.socialMedia, instagram: e.target.value },
-                    })
-                  }
+                  onChange={(e) => handleChange("socialMedia", "instagram", e.target.value)}
                   required
                 />
               </div>
@@ -245,12 +248,7 @@ export function SettingsAdmin() {
                 <Input
                   id="youtube"
                   value={siteConfig.socialMedia.youtube}
-                  onChange={(e) =>
-                    setSiteConfig({
-                      ...siteConfig,
-                      socialMedia: { ...siteConfig.socialMedia, youtube: e.target.value },
-                    })
-                  }
+                  onChange={(e) => handleChange("socialMedia", "youtube", e.target.value)}
                   required
                 />
               </div>
@@ -275,12 +273,7 @@ export function SettingsAdmin() {
                 <Input
                   id="weekdays"
                   value={siteConfig.businessHours.weekdays}
-                  onChange={(e) =>
-                    setSiteConfig({
-                      ...siteConfig,
-                      businessHours: { ...siteConfig.businessHours, weekdays: e.target.value },
-                    })
-                  }
+                  onChange={(e) => handleChange("businessHours", "weekdays", e.target.value)}
                   required
                 />
               </div>
@@ -289,12 +282,7 @@ export function SettingsAdmin() {
                 <Input
                   id="weekend"
                   value={siteConfig.businessHours.weekend}
-                  onChange={(e) =>
-                    setSiteConfig({
-                      ...siteConfig,
-                      businessHours: { ...siteConfig.businessHours, weekend: e.target.value },
-                    })
-                  }
+                  onChange={(e) => handleChange("businessHours", "weekend", e.target.value)}
                   required
                 />
               </div>

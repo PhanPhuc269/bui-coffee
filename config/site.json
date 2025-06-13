@@ -1,16 +1,16 @@
 {
-  "name": "Cà Phê Bụi",
-  "description": "Hương vị cà phê đích thực",
-  "logo": "/placeholder.svg?height=40&width=40",
+  "name": "Highlands Coffee",
+  "description": "Highlands Coffee là thương hiệu cà phê Việt Nam với hơn 20 năm kinh nghiệm, mang đến những trải nghiệm cà phê đậm đà hương vị Việt.",
+  "logo": "/logo.png",
   "contact": {
-    "hotline": "1800-8868h",
-    "email": "info@caphebui.vn",
-    "address": "123 Đường Nguyễn Huệ, Quận 1, TP.HCM"
+    "hotline": "1900 1755",
+    "email": "customerservice@highlandscoffee.com.vn",
+    "address": "Tầng 20, Tòa nhà Viettel, 285 Cách Mạng Tháng 8, Phường 12, Quận 10, Thành phố Hồ Chí Minh"
   },
   "socialMedia": {
-    "facebook": "https://facebook.com/caphebui",
-    "instagram": "https://instagram.com/caphebui",
-    "youtube": "https://youtube.com/caphebui"
+    "facebook": "https://www.facebook.com/highlandscoffeevietnam",
+    "instagram": "https://www.instagram.com/highlandscoffeevietnam",
+    "youtube": "https://www.youtube.com/channel/UCq6WR0-w7c4ByOkV2Z9-HgQ"
   },
   "businessHours": {
     "weekdays": "07:00 - 22:00",
