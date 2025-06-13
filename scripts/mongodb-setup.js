@@ -386,6 +386,41 @@ async function setupDatabase() {
     await db.collection("orders").createIndex({ status: 1 })
     await db.collection("features").createIndex({ title: 1 }, { unique: true })
 
+    // Tạo collection settings và thêm cấu hình mặc định
+    console.log("Tạo collection settings...")
+    await db.createCollection("settings")
+
+    // Kiểm tra xem đã có cấu hình chưa
+    const existingConfig = await db.collection("settings").findOne({ _id: "site-config" })
+
+    if (!existingConfig) {
+      // Thêm cấu hình mặc định
+      await db.collection("settings").insertOne({
+        _id: "site-config",
+        name: "Highlands Coffee",
+        description:
+          "Highlands Coffee là thương hiệu cà phê Việt Nam với hơn 20 năm kinh nghiệm, mang đến những trải nghiệm cà phê đậm đà hương vị Việt.",
+        logo: "/logo.png",
+        contact: {
+          hotline: "1900 1755",
+          email: "customerservice@highlandscoffee.com.vn",
+          address: "Tầng 20, Tòa nhà Viettel, 285 Cách Mạng Tháng 8, Phường 12, Quận 10, Thành phố Hồ Chí Minh",
+        },
+        socialMedia: {
+          facebook: "https://www.facebook.com/highlandscoffeevietnam",
+          instagram: "https://www.instagram.com/highlandscoffeevietnam",
+          youtube: "https://www.youtube.com/channel/UCq6WR0-w7c4ByOkV2Z9-HgQ",
+        },
+        businessHours: {
+          weekdays: "07:00 - 22:00",
+          weekend: "07:00 - 23:00",
+        },
+      })
+      console.log("Đã thêm cấu hình mặc định")
+    } else {
+      console.log("Cấu hình đã tồn tại")
+    }
+
     console.log("✅ Thiết lập database thành công!")
   } catch (error) {
     console.error("❌ Lỗi thiết lập database:", error)

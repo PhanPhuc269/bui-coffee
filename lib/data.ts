@@ -2,32 +2,7 @@ import { connectToDatabase } from "@/lib/mongodb"
 import { ObjectId } from "mongodb"
 import type { Product, Category, Store, Order, Testimonial, Feature, SiteConfig } from "@/types"
 import { cache } from "react"
-
-// Helper function to serialize MongoDB documents
-export function serializeDocument(doc: any) {
-  if (!doc) return null
-
-  // Convert _id from ObjectId to string
-  if (doc._id) {
-    doc._id = doc._id.toString()
-  }
-
-  // Handle nested documents in arrays
-  Object.keys(doc).forEach((key) => {
-    if (Array.isArray(doc[key])) {
-      doc[key] = doc[key].map((item: any) => {
-        if (item && typeof item === "object" && item._id) {
-          return serializeDocument(item)
-        }
-        return item
-      })
-    } else if (doc[key] && typeof doc[key] === "object" && doc[key]._id) {
-      doc[key] = serializeDocument(doc[key])
-    }
-  })
-
-  return doc
-}
+import { serializeDocument } from "@/lib/serialize"
 
 // Products
 export const getProducts = cache(
@@ -259,8 +234,16 @@ export const getFeatures = cache(async (): Promise<Feature[]> => {
 export const getSiteConfig = cache(async (): Promise<SiteConfig | null> => {
   try {
     const { db } = await connectToDatabase()
-    const config = await db.collection("settings").findOne({ type: "siteConfig" })
-    return config ? (serializeDocument(config).data as SiteConfig) : null
+    const settings = await db.collection("settings").findOne({ _id: "site-config" })
+
+    if (!settings) {
+      return null
+    }
+
+    // Loại bỏ _id từ kết quả trả về
+    const { _id, ...siteConfig } = serializeDocument(settings)
+
+    return siteConfig as SiteConfig
   } catch (error) {
     console.error("Error fetching site config:", error)
     return null
