@@ -1,0 +1,19 @@
+{
+  "name": "Cà Phê Bụi",
+  "description": "Hương vị cà phê đích thực",
+  "logo": "/placeholder.svg?height=40&width=40",
+  "contact": {
+    "hotline": "1800-8868h",
+    "email": "info@caphebui.vn",
+    "address": "123 Đường Nguyễn Huệ, Quận 1, TP.HCM"
+  },
+  "socialMedia": {
+    "facebook": "https://facebook.com/caphebui",
+    "instagram": "https://instagram.com/caphebui",
+    "youtube": "https://youtube.com/caphebui"
+  },
+  "businessHours": {
+    "weekdays": "07:00 - 22:00",
+    "weekend": "07:00 - 23:00"
+  }
+}

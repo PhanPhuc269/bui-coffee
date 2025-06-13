@@ -1,0 +1,50 @@
+[
+  {
+    "id": 1,
+    "name": "Nguyễn Thị Lan",
+    "avatar": "/placeholder.svg?height=40&width=40",
+    "rating": 5,
+    "comment": "Cà phê rất ngon, không gian thoải mái. Tôi rất thích đến đây làm việc và gặp gỡ bạn bè. Nhân viên phục vụ rất nhiệt tình và chu đáo.",
+    "location": "TP.HCM"
+  },
+  {
+    "id": 2,
+    "name": "Trần Văn Nam",
+    "avatar": "/placeholder.svg?height=40&width=40",
+    "rating": 5,
+    "comment": "Dịch vụ tuyệt vời, nhân viên thân thiện. Cà phê phin đen ở đây là số 1! Hương vị đậm đà, thơm ngon đúng chuẩn cà phê Việt Nam.",
+    "location": "Hà Nội"
+  },
+  {
+    "id": 3,
+    "name": "Lê Thị Mai",
+    "avatar": "/placeholder.svg?height=40&width=40",
+    "rating": 5,
+    "comment": "Không gian hiện đại, sạch sẽ. Menu đa dạng, giá cả hợp lý. Đặc biệt thích trà sen vàng ở đây, vị rất thanh mát và thơm ngon.",
+    "location": "Đà Nẵng"
+  },
+  {
+    "id": 4,
+    "name": "Phạm Minh Tuấn",
+    "avatar": "/placeholder.svg?height=40&width=40",
+    "rating": 4,
+    "comment": "Cửa hàng rộng rãi, wifi mạnh, phù hợp để làm việc. Cà phê sữa đá ngon, bánh mì cũng tươi và thơm. Sẽ quay lại thường xuyên.",
+    "location": "Cần Thơ"
+  },
+  {
+    "id": 5,
+    "name": "Hoàng Thị Hoa",
+    "avatar": "/placeholder.svg?height=40&width=40",
+    "rating": 5,
+    "comment": "Thương hiệu uy tín, chất lượng ổn định. Mỗi lần đến đây đều cảm thấy hài lòng. Đồ uống ngon, phục vụ nhanh chóng và chuyên nghiệp.",
+    "location": "Hải Phòng"
+  },
+  {
+    "id": 6,
+    "name": "Vũ Đình Khoa",
+    "avatar": "/placeholder.svg?height=40&width=40",
+    "rating": 4,
+    "comment": "Địa điểm lý tưởng để hẹn hò và gặp gỡ. Không gian ấm cúng, nhạc nhẹ nhàng. Cà phê thơm ngon, giá cả phải chăng so với chất lượng.",
+    "location": "Nha Trang"
+  }
+]
