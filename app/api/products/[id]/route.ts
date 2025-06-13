@@ -28,10 +28,11 @@ function serializeDocument(doc: any) {
   return doc
 }
 
-export async function GET(request: Request, { params }: { params: { id: string } }) {
+export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
+    const { id } = await params
     const { db } = await connectToDatabase()
-    const product = await db.collection("products").findOne({ _id: new ObjectId(params.id) })
+    const product = await db.collection("products").findOne({ _id: new ObjectId(id) })
 
     if (!product) {
       return NextResponse.json({ error: "Không tìm thấy sản phẩm" }, { status: 404 })
@@ -44,8 +45,9 @@ export async function GET(request: Request, { params }: { params: { id: string }
   }
 }
 
-export async function PUT(request: Request, { params }: { params: { id: string } }) {
+export async function PUT(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
+    const { id } = await params
     const { db } = await connectToDatabase()
     const updatedProduct = await request.json()
 
@@ -53,7 +55,7 @@ export async function PUT(request: Request, { params }: { params: { id: string }
     if (updatedProduct.slug) {
       const existingProduct = await db
         .collection("products")
-        .findOne({ slug: updatedProduct.slug, _id: { $ne: new ObjectId(params.id) } })
+        .findOne({ slug: updatedProduct.slug, _id: { $ne: new ObjectId(id) } })
       if (existingProduct) {
         return NextResponse.json({ error: "Slug đã tồn tại" }, { status: 400 })
       }
@@ -67,13 +69,13 @@ export async function PUT(request: Request, { params }: { params: { id: string }
       delete updatedProduct._id
     }
 
-    const result = await db.collection("products").updateOne({ _id: new ObjectId(params.id) }, { $set: updatedProduct })
+    const result = await db.collection("products").updateOne({ _id: new ObjectId(id) }, { $set: updatedProduct })
 
     if (result.matchedCount === 0) {
       return NextResponse.json({ error: "Không tìm thấy sản phẩm" }, { status: 404 })
     }
 
-    const product = await db.collection("products").findOne({ _id: new ObjectId(params.id) })
+    const product = await db.collection("products").findOne({ _id: new ObjectId(id) })
     return NextResponse.json(serializeDocument(product))
   } catch (error) {
     console.error("Lỗi khi cập nhật sản phẩm:", error)
@@ -81,10 +83,11 @@ export async function PUT(request: Request, { params }: { params: { id: string }
   }
 }
 
-export async function DELETE(request: Request, { params }: { params: { id: string } }) {
+export async function DELETE(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
+    const { id } = await params
     const { db } = await connectToDatabase()
-    const result = await db.collection("products").deleteOne({ _id: new ObjectId(params.id) })
+    const result = await db.collection("products").deleteOne({ _id: new ObjectId(id) })
 
     if (result.deletedCount === 0) {
       return NextResponse.json({ error: "Không tìm thấy sản phẩm" }, { status: 404 })
