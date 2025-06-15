@@ -24,7 +24,7 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
   }
 
   return {
-    title: `${product.name} | Highlands Coffee`,
+    title: `${product.name} | Bụi Coffee`,
     description: product.description,
     openGraph: {
       images: [product.image],

@@ -397,9 +397,9 @@ async function setupDatabase() {
       // Thêm cấu hình mặc định
       await db.collection("settings").insertOne({
         _id: "site-config",
-        name: "Highlands Coffee",
+        name: "Bụi Coffee",
         description:
-          "Highlands Coffee là thương hiệu cà phê Việt Nam với hơn 20 năm kinh nghiệm, mang đến những trải nghiệm cà phê đậm đà hương vị Việt.",
+          "Bụi Coffee là thương hiệu cà phê Việt Nam với hơn 20 năm kinh nghiệm, mang đến những trải nghiệm cà phê đậm đà hương vị Việt.",
         logo: "/logo.png",
         contact: {
           hotline: "1900 1755",

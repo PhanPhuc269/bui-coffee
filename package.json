@@ -53,6 +53,7 @@
     "mongodb": "latest",
     "mongodb-client-encryption": "latest",
     "next": "15.2.4",
+    "next-sitemap": "^4.2.3",
     "next-themes": "latest",
     "path": "latest",
     "react": "^19",
