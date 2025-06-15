@@ -10,7 +10,7 @@ export async function StoreLocations() {
       <div className="flex flex-col md:flex-row md:items-center justify-between mb-8">
         <div>
           <h2 className="text-3xl font-bold mb-2">Cửa hàng</h2>
-          <p className="text-muted-foreground">Tìm cửa hàng Bụi Coffee gần bạn nhất</p>
+          <p className="text-muted-foreground">Tìm cửa hàng Cà Phê Bụi gần bạn nhất</p>
         </div>
         <Link
           href="/locations"

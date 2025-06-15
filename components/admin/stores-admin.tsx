@@ -52,7 +52,7 @@ export function StoresAdmin() {
       setStores([
         {
           _id: "1",
-          name: "Bụi Coffee Nguyễn Huệ",
+          name: "Cà Phê Bụi Nguyễn Huệ",
           address: "123 Đường Nguyễn Huệ, Quận 1, TP.HCM",
           city: "Ho Chi Minh",
           district: "Quận 1",
@@ -77,7 +77,7 @@ export function StoresAdmin() {
         },
         {
           _id: "2",
-          name: "Bụi Coffee Lê Lợi",
+          name: "Cà Phê Bụi Lê Lợi",
           address: "45 Đường Lê Lợi, Quận 1, TP.HCM",
           city: "Ho Chi Minh",
           district: "Quận 1",
@@ -102,7 +102,7 @@ export function StoresAdmin() {
         },
         {
           _id: "3",
-          name: "Bụi Coffee Hoàn Kiếm",
+          name: "Cà Phê Bụi Hoàn Kiếm",
           address: "78 Đinh Tiên Hoàng, Quận Hoàn Kiếm, Hà Nội",
           city: "Ha Noi",
           district: "Quận Hoàn Kiếm",

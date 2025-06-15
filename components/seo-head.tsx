@@ -11,8 +11,8 @@ interface SEOHeadProps {
 }
 
 export function SEOHead({
-  title = "Bụi Coffee - Chuỗi cà phê hàng đầu Việt Nam",
-  description = "Thưởng thức hương vị cà phê đậm đà cùng không gian hiện đại tại Bụi Coffee",
+  title = "Cà Phê Bụi - Chuỗi cà phê hàng đầu Việt Nam",
+  description = "Thưởng thức hương vị cà phê đậm đà cùng không gian hiện đại tại Cà Phê Bụi",
   keywords = [],
   image = "/logo.png",
   url = "https://bui-coffee.vercel.app",
@@ -33,7 +33,7 @@ export function SEOHead({
       <meta property="og:description" content={description} />
       <meta property="og:image" content={image} />
       <meta property="og:url" content={url} />
-      <meta property="og:site_name" content="Bụi Coffee" />
+      <meta property="og:site_name" content="Cà Phê Bụi" />
       <meta property="og:locale" content="vi_VN" />
 
       {/* Twitter */}

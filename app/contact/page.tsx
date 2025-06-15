@@ -3,8 +3,8 @@ import { ContactInfo } from "@/components/contact-info"
 import type { Metadata } from "next"
 
 export const metadata: Metadata = {
-  title: "Liên hệ - Bụi Coffee",
-  description: "Liên hệ với Bụi Coffee để được hỗ trợ và giải đáp thắc mắc",
+  title: "Liên hệ - Cà Phê Bụi",
+  description: "Liên hệ với Cà Phê Bụi để được hỗ trợ và giải đáp thắc mắc",
 }
 
 export default function ContactPage() {

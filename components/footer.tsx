@@ -8,7 +8,7 @@ export default async function Footer() {
   noStore()
 
   const siteConfig = (await getSiteConfig()) || {
-    name: "Bụi Coffee",
+    name: "Cà Phê Bụi",
     description:
       "Thương hiệu cà phê Việt Nam từ năm 1999, tự hào mang đến những trải nghiệm cà phê đậm đà, phong phú và khác biệt.",
     socialMedia: {

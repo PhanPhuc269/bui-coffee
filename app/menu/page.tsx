@@ -8,9 +8,9 @@ import type { Metadata } from "next"
 export const metadata: Metadata = {
   title: "Thực đơn - Menu đồ uống và thức ăn",
   description:
-    "Khám phá thực đơn đa dạng của Bụi Coffee với các loại cà phê, trà, bánh ngọt và nhiều món ăn ngon khác. Giá cả hợp lý, chất lượng tuyệt vời.",
+    "Khám phá thực đơn đa dạng của Cà Phê Bụi với các loại cà phê, trà, bánh ngọt và nhiều món ăn ngon khác. Giá cả hợp lý, chất lượng tuyệt vời.",
   keywords: [
-    "thực đơn bụi coffee",
+    "thực đơn Cà Phê Bụi",
     "menu cà phê",
     "đồ uống",
     "bánh ngọt",
@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     "món ăn ngon",
   ],
   openGraph: {
-    title: "Thực đơn Bụi Coffee - Menu đồ uống và thức ăn",
+    title: "Thực đơn Cà Phê Bụi - Menu đồ uống và thức ăn",
     description: "Khám phá thực đơn đa dạng với các loại cà phê, trà, bánh ngọt chất lượng cao",
     images: ["/placeholder.jpg"],
   },
@@ -43,8 +43,8 @@ export default async function MenuPage({ searchParams }: MenuPageProps) {
   const menuSchema = {
     "@context": "https://schema.org",
     "@type": "Menu",
-    name: "Thực đơn Bụi Coffee",
-    description: "Menu đồ uống và thức ăn tại Bụi Coffee",
+    name: "Thực đơn Cà Phê Bụi",
+    description: "Menu đồ uống và thức ăn tại Cà Phê Bụi",
     hasMenuSection: categories.map((category) => ({
       "@type": "MenuSection",
       name: category.name,
@@ -75,7 +75,7 @@ export default async function MenuPage({ searchParams }: MenuPageProps) {
 
       <div className="container py-8 md:py-12">
         <div className="mb-8 text-center">
-          <h1 className="text-3xl font-bold tracking-tight md:text-4xl">Thực đơn Bụi Coffee</h1>
+          <h1 className="text-3xl font-bold tracking-tight md:text-4xl">Thực đơn Cà Phê Bụi</h1>
           <p className="mt-2 text-muted-foreground">
             Khám phá hương vị đặc biệt trong từng ly cà phê và món ăn của chúng tôi
           </p>

@@ -147,7 +147,7 @@ const sampleCategories = [
 // Dữ liệu mẫu cho Stores
 const sampleStores = [
   {
-    name: "Bụi Coffee Nguyễn Huệ",
+    name: "Cà Phê Bụi Nguyễn Huệ",
     address: "123 Đường Nguyễn Huệ, Quận 1, TP.HCM",
     city: "Ho Chi Minh",
     district: "Quận 1",
@@ -171,7 +171,7 @@ const sampleStores = [
     isActive: true,
   },
   {
-    name: "Bụi Coffee Lê Lợi",
+    name: "Cà Phê Bụi Lê Lợi",
     address: "45 Đường Lê Lợi, Quận 1, TP.HCM",
     city: "Ho Chi Minh",
     district: "Quận 1",
@@ -195,7 +195,7 @@ const sampleStores = [
     isActive: true,
   },
   {
-    name: "Bụi Coffee Hoàn Kiếm",
+    name: "Cà Phê Bụi Hoàn Kiếm",
     address: "78 Đinh Tiên Hoàng, Quận Hoàn Kiếm, Hà Nội",
     city: "Ha Noi",
     district: "Quận Hoàn Kiếm",
@@ -397,9 +397,9 @@ async function setupDatabase() {
       // Thêm cấu hình mặc định
       await db.collection("settings").insertOne({
         _id: "site-config",
-        name: "Bụi Coffee",
+        name: "Cà Phê Bụi",
         description:
-          "Bụi Coffee là thương hiệu cà phê Việt Nam với hơn 20 năm kinh nghiệm, mang đến những trải nghiệm cà phê đậm đà hương vị Việt.",
+          "Cà Phê Bụi là thương hiệu cà phê Việt Nam với hơn 20 năm kinh nghiệm, mang đến những trải nghiệm cà phê đậm đà hương vị Việt.",
         logo: "/logo.png",
         contact: {
           hotline: "1900 1755",

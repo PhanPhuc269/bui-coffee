@@ -37,8 +37,8 @@ export default function Header() {
             <SheetContent side="left" className="w-[300px] sm:w-[400px]">
               <div className="flex flex-col gap-6 py-6">
                 <Link href="/" className="flex items-center gap-2">
-                  <Image src="/favicon-32x32.png" width={40} height={40} alt="Bụi Coffee Logo" />
-                  <span className="text-lg font-bold">Bụi Coffee</span>
+                  <Image src="/favicon-32x32.png" width={40} height={40} alt="Cà Phê Bụi Logo" />
+                  <span className="text-lg font-bold">Cà Phê Bụi</span>
                 </Link>
                 <nav className="flex flex-col gap-4">
                   {navigation.map((item) => (
@@ -58,8 +58,8 @@ export default function Header() {
             </SheetContent>
           </Sheet>
           <Link href="/" className="flex items-center gap-2">
-            <Image src="/favicon.svg" width={40} height={40} alt="Bụi Coffee Logo" />
-            <span className="hidden font-bold md:inline-block">Bụi Coffee</span>
+            <Image src="/favicon.svg" width={40} height={40} alt="Cà Phê Bụi Logo" />
+            <span className="hidden font-bold md:inline-block">Cà Phê Bụi</span>
           </Link>
         </div>
         <nav className="hidden lg:flex lg:gap-6">

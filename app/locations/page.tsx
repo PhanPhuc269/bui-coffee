@@ -4,8 +4,8 @@ import { getStores } from "@/lib/data"
 import type { Metadata } from "next"
 
 export const metadata: Metadata = {
-  title: "Cửa hàng - Bụi Coffee",
-  description: "Tìm cửa hàng Bụi Coffee gần bạn nhất",
+  title: "Cửa hàng - Cà Phê Bụi",
+  description: "Tìm cửa hàng Cà Phê Bụi gần bạn nhất",
 }
 
 export default async function LocationsPage({

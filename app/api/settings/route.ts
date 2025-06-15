@@ -11,9 +11,9 @@ export async function GET() {
     if (!settings) {
       // Nếu không tìm thấy, trả về cấu hình mặc định từ file
       const defaultConfig = {
-        name: "Bụi Coffee",
+        name: "Cà Phê Bụi",
         description:
-          "Bụi Coffee là thương hiệu cà phê Việt Nam với hơn 20 năm kinh nghiệm, mang đến những trải nghiệm cà phê đậm đà hương vị Việt.",
+          "Cà Phê Bụi là thương hiệu cà phê Việt Nam với hơn 20 năm kinh nghiệm, mang đến những trải nghiệm cà phê đậm đà hương vị Việt.",
         logo: "/logo.png",
         contact: {
           hotline: "1900 1755",

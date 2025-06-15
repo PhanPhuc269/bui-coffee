@@ -8,7 +8,7 @@ export function HeroSection() {
       <div className="relative h-[500px] md:h-[600px] lg:h-[700px] w-full">
         <Image
           src="/placeholder.svg?height=700&width=1920"
-          alt="Bụi Coffee Hero"
+          alt="Cà Phê Bụi Hero"
           fill
           className="object-cover brightness-75"
           priority
@@ -21,7 +21,7 @@ export function HeroSection() {
                 Khám phá hương vị cà phê Việt Nam
               </h1>
               <p className="text-lg md:text-xl text-white/90 mb-8">
-                Thưởng thức những tách cà phê thơm ngon, đậm đà trong không gian hiện đại tại Bụi Coffee
+                Thưởng thức những tách cà phê thơm ngon, đậm đà trong không gian hiện đại tại Cà Phê Bụi
               </p>
               <div className="flex flex-wrap gap-4">
                 <Button asChild size="lg" className="bg-primary hover:bg-primary/90">

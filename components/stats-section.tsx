@@ -32,9 +32,9 @@ export function StatsSection() {
     <section className="bg-primary/5 py-16">
       <div className="container">
         <FadeInSection className="text-center mb-12">
-          <h2 className="text-3xl font-bold mb-4">Bụi Coffee trong con số</h2>
+          <h2 className="text-3xl font-bold mb-4">Cà Phê Bụi trong con số</h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
-            Những con số ấn tượng thể hiện sự phát triển và niềm tin của khách hàng dành cho Bụi Coffee
+            Những con số ấn tượng thể hiện sự phát triển và niềm tin của khách hàng dành cho Cà Phê Bụi
           </p>
         </FadeInSection>
 

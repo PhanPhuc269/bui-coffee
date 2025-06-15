@@ -21,18 +21,18 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
   }
 
   return {
-    title: `${product.name} - Thực đơn Bụi Coffee`,
+    title: `${product.name} - Thực đơn Cà Phê Bụi`,
     description: product.longDescription || product.description,
-    keywords: [product.name, ...product.tags, "bụi coffee", "cà phê", "đồ uống", product.category],
+    keywords: [product.name, ...product.tags, "Cà Phê Bụi", "cà phê", "đồ uống", product.category],
     openGraph: {
-      title: `${product.name} | Bụi Coffee`,
+      title: `${product.name} | Cà Phê Bụi`,
       description: product.description,
       images: [product.image, ...product.images],
       type: "article",
     },
     twitter: {
       card: "summary_large_image",
-      title: `${product.name} | Bụi Coffee`,
+      title: `${product.name} | Cà Phê Bụi`,
       description: product.description,
       images: [product.image],
     },
@@ -62,7 +62,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
     image: product.images,
     brand: {
       "@type": "Brand",
-      name: "Bụi Coffee",
+      name: "Cà Phê Bụi",
     },
     offers: {
       "@type": "AggregateOffer",
