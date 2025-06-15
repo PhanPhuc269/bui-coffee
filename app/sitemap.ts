@@ -4,7 +4,7 @@ import { getProducts, getCategories } from "@/lib/data"
 const baseUrl = "https://ca-phe-bui.phanphuc.id.vn"
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  // Static pages
+  // Static pages with optimized priorities and frequencies
   const staticPages = [
     {
       url: baseUrl,
