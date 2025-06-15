@@ -5,8 +5,8 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: "*",
       allow: "/",
-      disallow: ["/admin/", "/api/"],
+      disallow: ["/admin/", "/api/", "/_next/", "/private/"],
     },
-    sitemap: "https://bui-coffee.vercel.app/sitemap.xml",
+    sitemap: "https://ca-phe-bui.phanphuc.id.vn/sitemap.xml",
   }
 }

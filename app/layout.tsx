@@ -2,125 +2,114 @@ import type React from "react"
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import "./globals.css"
-import { ThemeProvider } from "@/components/theme-provider"
 import Header from "@/components/header"
 import Footer from "@/components/footer"
+import { ThemeProvider } from "@/components/theme-provider"
 import { Toaster } from "@/components/ui/toaster"
-import { ScrollToTop } from "@/components/scroll-to-top"
-import { FloatingActionButton } from "@/components/floating-action-button"
+import { getSiteConfig } from "@/lib/data"
 
 const inter = Inter({ subsets: ["latin"] })
 
-export const metadata: Metadata = {
-  title: {
-    default: "Bụi Coffee - Chuỗi cà phê hàng đầu Việt Nam",
-    template: "%s | Bụi Coffee",
-  },
-  description:
-    "Thưởng thức hương vị cà phê đậm đà cùng không gian hiện đại tại Bụi Coffee. Chuỗi cà phê uy tín với nhiều chi nhánh trên toàn quốc.",
-  keywords: [
-    "cà phê",
-    "coffee",
-    "bụi coffee",
-    "cà phê việt nam",
-    "cà phê sữa đá",
-    "trà sữa",
-    "bánh ngọt",
-    "chuỗi cà phê",
-    "quán cà phê",
-    "coffee shop",
-  ],
-  authors: [{ name: "Bụi Coffee" }],
-  creator: "Bụi Coffee",
-  publisher: "Bụi Coffee",
-  formatDetection: {
-    email: false,
-    address: false,
-    telephone: false,
-  },
-  metadataBase: new URL("https://bui-coffee.vercel.app"),
-  alternates: {
-    canonical: "/",
-  },
-  openGraph: {
-    type: "website",
-    locale: "vi_VN",
-    url: "https://bui-coffee.vercel.app",
-    title: "Bụi Coffee - Chuỗi cà phê hàng đầu Việt Nam",
-    description: "Thưởng thức hương vị cà phê đậm đà cùng không gian hiện đại tại Bụi Coffee",
-    siteName: "Bụi Coffee",
-    images: [
-      {
-        url: "/logo.png",
-        width: 1200,
-        height: 630,
-        alt: "Bụi Coffee Logo",
-      },
+export async function generateMetadata(): Promise<Metadata> {
+  const siteConfig = await getSiteConfig()
+
+  return {
+    metadataBase: new URL("https://ca-phe-bui.phanphuc.id.vn"),
+    title: {
+      default: siteConfig?.name || "Bụi Coffee - Chuỗi cà phê hàng đầu Việt Nam",
+      template: `%s | ${siteConfig?.name || "Bụi Coffee"}`,
+    },
+    description:
+      siteConfig?.description ||
+      "Thưởng thức hương vị cà phê đậm đà, phong phú cùng không gian hiện đại tại Bụi Coffee. Chuỗi cà phê hàng đầu Việt Nam với hơn 500 cửa hàng trên toàn quốc.",
+    keywords: [
+      "cà phê",
+      "coffee",
+      "Bụi Coffee",
+      "cà phê Việt Nam",
+      "Vietnamese coffee",
+      "chuỗi cà phê",
+      "coffee shop",
+      "đồ uống",
+      "beverages",
     ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Bụi Coffee - Chuỗi cà phê hàng đầu Việt Nam",
-    description: "Thưởng thức hương vị cà phê đậm đà cùng không gian hiện đại tại Bụi Coffee",
-    images: ["/logo.png"],
-  },
-  icons: {
-    icon: [
-      {
-        url: "/favicon.ico",
-        sizes: "16x16",
-        type: "image/x-icon",
+    authors: [{ name: "Bụi Coffee" }],
+    creator: "Bụi Coffee",
+    publisher: "Bụi Coffee",
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        "max-video-preview": -1,
+        "max-image-preview": "large",
+        "max-snippet": -1,
       },
-      {
-        url: "/favicon.svg",
-        type: "image/svg+xml",
-      },
-    ],
-    apple: [
-      {
-        url: "/apple-touch-icon.png",
-        sizes: "180x180",
-        type: "image/png",
-      },
-    ],
-  },
-  manifest: "/manifest.json",
-  generator: "v0.dev",
-  applicationName: "Bụi Coffee",
-  referrer: "origin-when-cross-origin",
-  category: "food",
+    },
+    openGraph: {
+      type: "website",
+      locale: "vi_VN",
+      url: "https://ca-phe-bui.phanphuc.id.vn",
+      siteName: siteConfig?.name || "Bụi Coffee",
+      title: siteConfig?.name || "Bụi Coffee - Chuỗi cà phê hàng đầu Việt Nam",
+      description:
+        siteConfig?.description ||
+        "Thưởng thức hương vị cà phê đậm đà, phong phú cùng không gian hiện đại tại Bụi Coffee",
+      images: [
+        {
+          url: siteConfig?.logo || "/logo.png",
+          width: 1200,
+          height: 630,
+          alt: siteConfig?.name || "Bụi Coffee",
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: siteConfig?.name || "Bụi Coffee - Chuỗi cà phê hàng đầu Việt Nam",
+      description:
+        siteConfig?.description ||
+        "Thưởng thức hương vị cà phê đậm đà, phong phú cùng không gian hiện đại tại Bụi Coffee",
+      images: [siteConfig?.logo || "/logo.png"],
+    },
+    verification: {
+      google: "your-google-verification-code",
+    },
+    alternates: {
+      canonical: "https://ca-phe-bui.phanphuc.id.vn",
+    },
+  }
 }
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode
-}>) {
+}) {
   return (
     <html lang="vi" suppressHydrationWarning>
       <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <meta name="theme-color" content="#8B4513" />
-        <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-        <meta name="apple-mobile-web-app-title" content="Bụi Coffee" />
-        <meta name="mobile-web-app-capable" content="yes" />
-        <meta name="msapplication-TileColor" content="#8B4513" />
-        <meta name="msapplication-tap-highlight" content="no" />
+        <link rel="icon" href="/favicon.ico" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+        <link rel="manifest" href="/site.webmanifest" />
       </head>
       <body className={inter.className}>
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
-          <div className="flex min-h-screen flex-col">
+          <div className="min-h-screen flex flex-col">
             <Header />
             <main className="flex-1">{children}</main>
             <Footer />
           </div>
-          <ScrollToTop />
-          <FloatingActionButton />
           <Toaster />
         </ThemeProvider>
       </body>
     </html>
   )
 }
+
+export const metadata = {
+      generator: 'v0.dev'
+    };

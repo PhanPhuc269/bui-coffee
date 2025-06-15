@@ -32,8 +32,8 @@ export default async function HomePage() {
     "@type": "Organization",
     name: siteConfig?.name || "Bụi Coffee",
     description: siteConfig?.description || "Chuỗi cà phê hàng đầu Việt Nam",
-    url: "https://bui-coffee.vercel.app",
-    logo: `https://bui-coffee.vercel.app${siteConfig?.logo || "/logo.png"}`,
+    url: "https://ca-phe-bui.phanphuc.id.vn",
+    logo: `https://ca-phe-bui.phanphuc.id.vn${siteConfig?.logo || "/logo.png"}`,
     contactPoint: {
       "@type": "ContactPoint",
       telephone: siteConfig?.contact.hotline || "1800-8868",
@@ -59,12 +59,12 @@ export default async function HomePage() {
     "@context": "https://schema.org",
     "@type": "WebSite",
     name: siteConfig?.name || "Bụi Coffee",
-    url: "https://bui-coffee.vercel.app",
+    url: "https://ca-phe-bui.phanphuc.id.vn",
     potentialAction: {
       "@type": "SearchAction",
       target: {
         "@type": "EntryPoint",
-        urlTemplate: "https://bui-coffee.vercel.app/menu?search={search_term_string}",
+        urlTemplate: "https://ca-phe-bui.phanphuc.id.vn/menu?search={search_term_string}",
       },
       "query-input": "required name=search_term_string",
     },
@@ -85,13 +85,15 @@ export default async function HomePage() {
         }}
       />
 
-      <HeroSection />
-      <FeaturedProducts />
-      <AboutSection />
-      <Features />
-      <StatsSection />
-      <StoreLocations />
-      <Testimonials />
+      <div className="flex flex-col gap-16 pb-16">
+        <HeroSection />
+        <FeaturedProducts />
+        <Features />
+        <AboutSection />
+        <StatsSection />
+        <StoreLocations />
+        <Testimonials />
+      </div>
     </>
   )
 }
