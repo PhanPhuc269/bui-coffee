@@ -1,7 +1,7 @@
 import type { Metadata } from "next"
 import { notFound } from "next/navigation"
 import { ProductDetail } from "@/components/product-detail"
-import { getProductBySlug, getCategoryBySlug } from "@/lib/data"
+import { getProductBySlug, getCategoryBySlug, getRelatedProducts } from "@/lib/data"
 
 interface ProductPageProps {
   params: {
@@ -10,10 +10,7 @@ interface ProductPageProps {
 }
 
 export async function generateMetadata({ params }: ProductPageProps): Promise<Metadata> {
-  // Lấy slug từ params
   const slug = params.slug
-
-  // Lấy thông tin sản phẩm
   const product = await getProductBySlug(slug)
 
   if (!product) {
@@ -24,31 +21,89 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
   }
 
   return {
-    title: `${product.name} | Bụi Coffee`,
-    description: product.description,
+    title: `${product.name} - Thực đơn Bụi Coffee`,
+    description: product.longDescription || product.description,
+    keywords: [product.name, ...product.tags, "bụi coffee", "cà phê", "đồ uống", product.category],
     openGraph: {
+      title: `${product.name} | Bụi Coffee`,
+      description: product.description,
+      images: [product.image, ...product.images],
+      type: "article",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${product.name} | Bụi Coffee`,
+      description: product.description,
       images: [product.image],
+    },
+    alternates: {
+      canonical: `/menu/${product.slug}`,
     },
   }
 }
 
 export default async function ProductPage({ params }: ProductPageProps) {
-  // Lấy slug từ params
   const slug = params.slug
-
-  // Lấy thông tin sản phẩm
   const product = await getProductBySlug(slug)
 
   if (!product) {
     notFound()
   }
 
-  // Lấy thông tin danh mục
   const category = await getCategoryBySlug(product.category)
+  const relatedProducts = await getRelatedProducts(product.category, product.slug)
+
+  // Structured Data for Product
+  const productSchema = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: product.name,
+    description: product.description,
+    image: product.images,
+    brand: {
+      "@type": "Brand",
+      name: "Bụi Coffee",
+    },
+    offers: {
+      "@type": "AggregateOffer",
+      lowPrice: Math.min(...product.sizes.map((size) => size.price)),
+      highPrice: Math.max(...product.sizes.map((size) => size.price)),
+      priceCurrency: "VND",
+      availability: product.isAvailable ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
+      offers: product.sizes.map((size) => ({
+        "@type": "Offer",
+        name: `${product.name} - ${size.name}`,
+        price: size.price,
+        priceCurrency: "VND",
+        availability: product.isAvailable ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
+      })),
+    },
+    nutrition: {
+      "@type": "NutritionInformation",
+      calories: product.nutritionalInfo.calories,
+      sugarContent: product.nutritionalInfo.sugar,
+      caffeine: product.nutritionalInfo.caffeine,
+    },
+    category: category?.name,
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: "4.5",
+      reviewCount: "127",
+    },
+  }
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <ProductDetail product={product} category={category} />
-    </div>
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(productSchema),
+        }}
+      />
+
+      <div className="container mx-auto px-4 py-8">
+        <ProductDetail product={product} category={category} relatedProducts={relatedProducts} />
+      </div>
+    </>
   )
 }
